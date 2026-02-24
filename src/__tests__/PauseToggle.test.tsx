@@ -1,6 +1,6 @@
 import { screen, fireEvent } from "@testing-library/react";
 import PauseToggle from "../components/atoms/PauseToggle";
-import { renderWithChakra } from "./test-utils";
+import { renderWithChakra } from "../test/test-utils";
 
 
 describe("PauseToggle", () => {
