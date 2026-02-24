@@ -42,3 +42,8 @@ jobs:
         run: |
           echo "URL set? ${{ secrets.VITE_SUPABASE_URL != '' }}"
           echo "ANON set? ${{ secrets.VITE_SUPABASE_ANON_KEY != '' }}"
+      - name: Run tests
+        run: npm test
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
