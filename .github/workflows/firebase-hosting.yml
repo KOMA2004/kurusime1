@@ -38,3 +38,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KURUSIME1 }}
           projectId: kurusime1
           channelId: live
+      - name: Check env presence
+        run: |
+          echo "URL set? ${{ secrets.VITE_SUPABASE_URL != '' }}"
+          echo "ANON set? ${{ secrets.VITE_SUPABASE_ANON_KEY != '' }}"
