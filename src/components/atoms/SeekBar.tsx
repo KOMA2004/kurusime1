@@ -61,11 +61,11 @@ function SeekBar({
 
   return (
     <>
-      <Text fontSize="sm" w="52px" textAlign="right">
+      <Text data-testid="seekbar-shown-time" fontSize="sm" w="52px" textAlign="right">
         {formatTime(shownTime)}
       </Text>
 
-      <Slider.Root
+      <Slider.Root data-testid="seekbar-root"
         flex="1"
         min={0}
         max={Math.max(duration, 0.0001)}
