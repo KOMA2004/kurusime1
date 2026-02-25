@@ -145,13 +145,14 @@ Jest（jsdom）では一部ブラウザAPIが未実装のため、以下をモ�
 
 ---
 
-## 作者
+## 最後に
 
 小松 響
 
-kurusime1という名前は「勉強は苦しんでなんぼ」という戒めでつけました。
+kurusime1という名前は「苦しんでなんぼ」という戒めでつけました。
 １月初めから勉強し続けましたが、なんとか間に合いました。
 
+### この２か月で学んだこと
 * Visual Studio Code
 * html
 * css
@@ -159,9 +160,13 @@ kurusime1という名前は「勉強は苦しんでなんぼ」という戒め�
 * typescript
 * react
 * Firebase Hosting
+* Supabase
 * vite
 * chakra v3
-* Jest
-* Testing Library
+* Styled Component (今回は未使用)
+* Jest (発展途上)
+* Testing Library (発展途上)
 * Github
+
+
   
