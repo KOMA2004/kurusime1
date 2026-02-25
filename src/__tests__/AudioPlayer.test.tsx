@@ -72,7 +72,7 @@ test('audioタグにsrcがセットされる', () => {
   expect(audio?.getAttribute('preload')).toBe('metadata')
 })
 
-test('useAudioState が audioRef と src で呼ばれる / atoms に必要なpropsが渡る', () => {
+test('useAudioStateがaudioRefとsrcで呼ばれる / atomsに必要なpropsが渡る', () => {
   renderWithChakra(<AudioPlayer src="/music/a.wav" autoPlayKey={10} />)
 
   // hook呼び出し検証

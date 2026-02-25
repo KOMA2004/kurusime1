@@ -1,12 +1,7 @@
-// src/__tests__/SeekBar.test.tsx
 
-// ★ 必ず「最上部」に置く（SeekBar を import する前）
-// これが下にあるとモックが効かず ContextError になります
 jest.mock("@chakra-ui/react", () => {
   const actual = jest.requireActual("@chakra-ui/react");
 
-  // SeekBar が使ってる分だけの簡易 Slider 実装
-  // UIの正しさではなく、SeekBarロジックの正しさをテストするためのモック
   const Slider = {
     Root: ({
       value,
@@ -30,7 +25,7 @@ jest.mock("@chakra-ui/react", () => {
           onPointerUp={(e) => onPointerUpCapture?.(e)}
           onChange={(e) => {
             const v = Number((e.target as HTMLInputElement).value);
-            onValueChange?.({ value: [v] }); // Chakra Slider と同じ形
+            onValueChange?.({ value: [v] });
           }}
         />
       </div>
@@ -41,7 +36,6 @@ jest.mock("@chakra-ui/react", () => {
     Thumbs: () => null,
   };
 
-  // Text も Chakra context 依存があるので簡易化
   const Text = ({ children, ...p }: any) => <p {...p}>{children}</p>;
 
   return { ...actual, Slider, Text };
@@ -51,7 +45,6 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-// ★ ここはあなたのプロジェクトに合わせてパスを直す
 import SeekBar from "../components/atoms/SeekBar";
 
 describe("SeekBar", () => {
@@ -76,14 +69,11 @@ describe("SeekBar", () => {
     const shown = screen.getByTestId("seekbar-shown-time");
     expect(shown).toHaveTextContent("0:10");
 
-    // シーク開始（SeekBar の onPointerDownCapture が走る）
     const input = screen.getByTestId("mock-slider-input");
     fireEvent.pointerDown(input);
 
-    // 20秒へ移動（SeekBar の onValueChange が走り seekTime が更新される）
     fireEvent.change(input, { target: { value: "20" } });
 
-    // 表示が 0:20 になっていることを確認
     expect(shown).toHaveTextContent("0:20");
   });
 
@@ -107,13 +97,10 @@ describe("SeekBar", () => {
 
     const input = screen.getByTestId("mock-slider-input");
 
-    // シーク開始
     fireEvent.pointerDown(input);
 
-    // 20秒へ
     fireEvent.change(input, { target: { value: "20" } });
 
-    // SeekBar の実装は seekTime !== null のとき window pointerup でも commit される
     fireEvent(window, new Event("pointerup"));
 
     expect(audio.currentTime).toBe(20);
@@ -144,7 +131,6 @@ describe("SeekBar", () => {
     fireEvent.pointerDown(input);
     fireEvent.change(input, { target: { value: "20" } });
 
-    // Rootに onPointerUpCapture が付いてるので、input側で pointerUp を起こせば commit が走る
     fireEvent.pointerUp(input);
 
     expect(audio.currentTime).toBe(20);

@@ -1,73 +1,158 @@
-# React + TypeScript + Vite
+# 音楽プレイヤーアプリ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## デモ
 
-Currently, two official plugins are available:
+https://kurusime1.web.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## GitHub
 
-## React Compiler
+https://github.com/KOMA2004/kurusime1
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 概要
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+楽曲を直感的に再生・操作できるWeb音楽プレイヤーです。
+再生状態・シーク操作・音量調整をリアルタイムに反映し、ストレスのない操作体験を目指しました。
+また、楽曲のダウンロードをシームレスに行えるように設計しています。
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 制作背景
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+自身の楽曲をYouTubeやSoundCloudに公開する際、ダウンロードには概要欄を開き外部サイトへ遷移する必要があり、導線の分かりづらさを感じていました。
+
+そこで
+「再生からダウンロードまでを一つのUIで完結できる体験」
+を目指し、本アプリを制作しました。
+
+---
+
+## 主な機能
+
+* 音楽の再生 / 停止
+* シークバーによる再生位置変更
+* 音量調整
+* 楽曲リスト表示
+* 楽曲ダウンロード
+
+---
+
+## 技術スタック
+
+* React
+* TypeScript
+* Chakra UI v3
+* Vite
+* Firebase Hosting
+* Supabase
+* Jest
+* Testing Library
+
+---
+
+## アーキテクチャ / 設計
+
+### コンポーネント設計
+
+コンポーネントを役割ごとに分離し、責務を明確にしました。
+
+```
+src/
+  components/
+    atoms/
+    molecules/
+    organisms/
+  hooks/
+  lib/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* UIパーツ → components
+* 状態管理や副作用 → hooks
+* 純粋関数 → lib
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+ロジックとUIを分離することで可読性・再利用性を向上させています。
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 工夫した点
+
+### 1. 状態とUIの分離
+
+カスタムフックを用いて音声状態管理を分離し、
+UIコンポーネントは表示とイベントのみを担当する構造にしました。
+
+これにより
+
+* テストしやすい
+* 変更に強い
+* 責務が明確
+
+な設計になっています。
+
+---
+
+### 2. シーク操作のバグ解決
+
+スライダー外へドラッグして指を離した際にイベントが取得できず、再生位置が更新されない問題がありました。
+
+そこで
+
 ```
+window.addEventListener("pointerup", commit)
+```
+
+を利用し、スライダー外での操作終了も検知できるようにすることで、
+直感的な操作体験を実現しました。
+
+---
+
+### 3. テスト環境の整備
+
+以下の観点で自動テストを実装しました。
+
+* 楽曲取得後にタイトルが表示されるか
+* audio要素へ正しくsrcが設定されるか
+* 再生 / 停止の挙動
+* シークバー操作の挙動
+
+#### テスト対象
+
+* App
+* AudioPlayer
+* PauseToggle
+* SeekBar
+
+#### 共通ラッパー
+
+Chakra Provider を共通ラッパーとして定義し、
+実際のアプリ環境に近い状態でテストできるようにしました。
+
+#### jsdom環境の制約への対応
+
+Jest（jsdom）では一部ブラウザAPIが未実装のため、以下をモックしています。
+
+* ResizeObserver
+* IntersectionObserver
+* matchMedia
+* structuredClone
+* HTMLMediaElement
+
+これにより UI ライブラリ利用時でも安定してテストが実行できる環境を構築しました。
+
+---
+
+## 今後の改善
+
+* 楽曲アップロード機能の実装
+* Node.js を用いたバックエンド理解の深化
+* テスト設計（モック・副作用）の理解をさらに深める
+* 独自ドメインでの公開
+* SNS導線の追加
+* UIライブラリの再検討（テスト運用コストを踏まえた最適化）
+
+---
+
+## 作者
+
+小松 響

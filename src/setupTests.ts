@@ -23,7 +23,6 @@ class IntersectionObserverMock {
 Object.defineProperty(window, "IntersectionObserver", { writable: true, value: IntersectionObserverMock })
 Object.defineProperty(globalThis, "IntersectionObserver", { writable: true, value: IntersectionObserverMock })
 
-// matchMedia
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({
@@ -38,7 +37,6 @@ Object.defineProperty(window, "matchMedia", {
   }),
 })
 
-// structuredClone（最低限）
 if (typeof globalThis.structuredClone !== "function") {
   globalThis.structuredClone = (value: unknown) => {
     if (value === undefined) return undefined
@@ -47,7 +45,6 @@ if (typeof globalThis.structuredClone !== "function") {
   }
 }
 
-// HTMLMediaElement（jsdom未実装）
 Object.defineProperty(HTMLMediaElement.prototype, "load", {
   configurable: true,
   value: jest.fn(),
