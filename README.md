@@ -95,8 +95,7 @@ UIコンポーネントは表示とイベントのみを担当する構造にし
 window.addEventListener("pointerup", commit)
 ```
 
-を利用し、スライダー外での操作終了も検知できるようにすることで、
-直感的な操作体験を実現しました。
+を利用し、スライダー外での操作終了も検知できるようにすることで、バグ修正しました。
 
 ---
 
@@ -149,3 +148,20 @@ Jest（jsdom）では一部ブラウザAPIが未実装のため、以下をモ�
 ## 作者
 
 小松 響
+
+kurusime1という名前は「勉強は苦しんでなんぼ」という戒めでつけました。
+１月初めから勉強し続けましたが、なんとか間に合いました。
+
+* Visual Studio Code
+* html
+* css
+* javascript
+* typescript
+* react
+* Firebase Hosting
+* vite
+* chakra v3
+* Jest
+* Testing Library
+* Github
+  
