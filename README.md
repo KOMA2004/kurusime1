@@ -96,6 +96,8 @@ window.addEventListener("pointerup", commit)
 ```
 
 を利用し、スライダー外での操作終了も検知できるようにすることで、バグ修正しました。
+なお、removeEventListner('pointerup', commit)をreturnしないとuseEffectが呼び出されるたびに重複してしまうので、
+付け加えました。
 
 ---
 
