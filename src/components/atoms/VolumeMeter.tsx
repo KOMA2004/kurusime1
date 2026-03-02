@@ -43,6 +43,8 @@ function VolumeMeter({audioRef} : Props) {
     audio.volume = Math.min(1, Math.max(0, volume / 100))
   }, [volume, audioRef])
 
+  
+
 
   return (
     <Popover.Root open={volOpen} positioning={{ placement: 'top' }}>

@@ -5,16 +5,16 @@ import { formatTime } from '../../lib/formatTime'
 type Props = {
   duration: number
   audioRef: React.RefObject<HTMLAudioElement | null>
-  currentTime: number
-  setCurrentTime: (v: number) => void
+  nowTime: number
+  setNowTime: (v: number) => void
   setIsSeeking: (v: boolean) => void
 }
 
 function SeekBar({
   duration,
   audioRef,
-  currentTime,
-  setCurrentTime,
+  nowTime,
+  setNowTime,
   setIsSeeking,
 }: Props) {
   const [seekTime, setSeekTime] = useState<number | null>(null)
@@ -27,10 +27,10 @@ function SeekBar({
   }, [seekTime])
 
   useEffect(() => {
-    currentTimeRef.current = currentTime
-  }, [currentTime])
+    currentTimeRef.current = nowTime
+  }, [nowTime])
 
-  const shownTime = seekTime ?? currentTime
+  const shownTime = seekTime ?? nowTime
 
   const seekValue = useMemo(
     () => [Math.min(shownTime, duration || 0)],
@@ -42,10 +42,10 @@ function SeekBar({
     const v = seekTimeRef.current ?? currentTimeRef.current
 
     if (audio) audio.currentTime = v
-    setCurrentTime(v)
+    setNowTime(v)
     setSeekTime(null)
     setIsSeeking(false)
-  }, [audioRef, setCurrentTime, setIsSeeking])
+  }, [audioRef, setNowTime, setIsSeeking])
 
   useEffect(() => {
     if (seekTime === null) return
@@ -61,11 +61,17 @@ function SeekBar({
 
   return (
     <>
-      <Text data-testid="seekbar-shown-time" fontSize="sm" w="52px" textAlign="right">
+      <Text
+        data-testid="seekbar-shown-time"
+        fontSize="sm"
+        w="52px"
+        textAlign="right"
+      >
         {formatTime(shownTime)}
       </Text>
 
-      <Slider.Root data-testid="seekbar-root"
+      <Slider.Root
+        data-testid="seekbar-root"
         flex="1"
         min={0}
         max={Math.max(duration, 0.0001)}
@@ -77,9 +83,8 @@ function SeekBar({
         }}
         onPointerDownCapture={() => {
           setIsSeeking(true)
-          setSeekTime(currentTime)
+          setSeekTime(nowTime)
         }}
-
         onPointerUpCapture={commit}
       >
         <Slider.Control>

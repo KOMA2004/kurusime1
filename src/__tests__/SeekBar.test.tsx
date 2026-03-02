@@ -77,7 +77,7 @@ describe("SeekBar", () => {
     expect(shown).toHaveTextContent("0:20");
   });
 
-  test("シーク確定すると audio.nowTime と setNowTime が更新される（window pointerup）", () => {
+  test("シーク確定すると audio.currentTime と setNowTime が更新される（window pointerup）", () => {
     const audio = document.createElement("audio");
     Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;

@@ -6,13 +6,13 @@ type Args = {
 }
 
 export function useAutoPlay({ audioRef, autoPlayKey }: Args) {
-  const didMountRef = useRef(false)
+  const didMountRef = useRef(false) 
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
-    if (!didMountRef.current) {
+    if (!didMountRef.current) { //初回自動再生をはじくためのギミック
       didMountRef.current = true
       return
     }

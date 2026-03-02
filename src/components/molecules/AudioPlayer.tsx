@@ -25,8 +25,8 @@ export function AudioPlayer({ src, autoPlayKey }: Props) {
         <SeekBar
           duration={duration}
           audioRef={audioRef}
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
+          nowTime={currentTime}
+          setNowTime={setCurrentTime}
           setIsSeeking={setIsSeeking}
         />
       </HStack>
