@@ -50,7 +50,7 @@ import SeekBar from "../components/atoms/SeekBar";
 describe("SeekBar", () => {
   test("シークバーを動かすと表示される再生時間が変わる", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
     const setNowTime = jest.fn();
@@ -79,7 +79,7 @@ describe("SeekBar", () => {
 
   test("シーク確定すると audio.nowTime と setNowTime が更新される（window pointerup）", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
     const setNowTime = jest.fn();
@@ -108,9 +108,9 @@ describe("SeekBar", () => {
     expect(setIsSeeking).toHaveBeenCalledWith(false);
   });
 
-  test("シーク確定すると audio.nowTime と setNowTime が更新される（Slider上 pointerup）", () => {
+  test("シーク確定すると audio.currentTime と setNowTime が更新される（Slider上 pointerup）", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
     const setNowTime = jest.fn();
