@@ -50,18 +50,18 @@ import SeekBar from "../components/atoms/SeekBar";
 describe("SeekBar", () => {
   test("シークバーを動かすと表示される再生時間が変わる", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
-    const setCurrentTime = jest.fn();
+    const setNowTime = jest.fn();
     const setIsSeeking = jest.fn();
 
     render(
       <SeekBar
         duration={120}
         audioRef={audioRef}
-        currentTime={10}
-        setCurrentTime={setCurrentTime}
+        nowTime={10}
+        setNowTime={setNowTime}
         setIsSeeking={setIsSeeking}
       />
     );
@@ -77,20 +77,20 @@ describe("SeekBar", () => {
     expect(shown).toHaveTextContent("0:20");
   });
 
-  test("シーク確定すると audio.currentTime と setCurrentTime が更新される（window pointerup）", () => {
+  test("シーク確定すると audio.nowTime と setNowTime が更新される（window pointerup）", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
-    const setCurrentTime = jest.fn();
+    const setNowTime = jest.fn();
     const setIsSeeking = jest.fn();
 
     render(
       <SeekBar
         duration={120}
         audioRef={audioRef}
-        currentTime={10}
-        setCurrentTime={setCurrentTime}
+        nowTime={10}
+        setNowTime={setNowTime}
         setIsSeeking={setIsSeeking}
       />
     );
@@ -104,24 +104,24 @@ describe("SeekBar", () => {
     fireEvent(window, new Event("pointerup"));
 
     expect(audio.currentTime).toBe(20);
-    expect(setCurrentTime).toHaveBeenCalledWith(20);
+    expect(setNowTime).toHaveBeenCalledWith(20);
     expect(setIsSeeking).toHaveBeenCalledWith(false);
   });
 
-  test("シーク確定すると audio.currentTime と setCurrentTime が更新される（Slider上 pointerup）", () => {
+  test("シーク確定すると audio.nowTime と setNowTime が更新される（Slider上 pointerup）", () => {
     const audio = document.createElement("audio");
-    Object.defineProperty(audio, "currentTime", { value: 0, writable: true });
+    Object.defineProperty(audio, "nowTime", { value: 0, writable: true });
     const audioRef = { current: audio } as React.RefObject<HTMLAudioElement>;
 
-    const setCurrentTime = jest.fn();
+    const setNowTime = jest.fn();
     const setIsSeeking = jest.fn();
 
     render(
       <SeekBar
         duration={120}
         audioRef={audioRef}
-        currentTime={10}
-        setCurrentTime={setCurrentTime}
+        nowTime={10}
+        setNowTime={setNowTime}
         setIsSeeking={setIsSeeking}
       />
     );
@@ -134,7 +134,7 @@ describe("SeekBar", () => {
     fireEvent.pointerUp(input);
 
     expect(audio.currentTime).toBe(20);
-    expect(setCurrentTime).toHaveBeenCalledWith(20);
+    expect(setNowTime).toHaveBeenCalledWith(20);
     expect(setIsSeeking).toHaveBeenCalledWith(false);
   });
 });
