@@ -52,7 +52,7 @@ function App() {
 
   const now = nowBGM
   
-  const onSelect = (track: Track) => { //音楽リストが押されたときの処理
+  const onSelect = (track: Track) => { //音楽リストが押されたときの処理。現在再生されている楽曲を反映させるため、この関数だけ分離が難しかった。
     setNowBGM(track)
     setAutoPlayKey((k) => k + 1) 
   }
