@@ -6,12 +6,12 @@ type Args = {
 }
 
 export function useAudioState({ audioRef, src }: Args) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [duration, setDuration] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false) //曲が流れているかどうか
+  const [duration, setDuration] = useState(0) //曲の尺
+  const [currentTime, setCurrentTime] = useState(0) //再生時間
 
-  const [isSeeking, setIsSeeking] = useState(false)
-  const isSeekingRef = useRef(false)
+  const [isSeeking, setIsSeeking] = useState(false) //シークバーがドラッグされているかどうか
+  const isSeekingRef = useRef(false) //非同期処理によるUIとのズレ防止
   useEffect(() => {
     isSeekingRef.current = isSeeking
   }, [isSeeking])
@@ -22,7 +22,7 @@ export function useAudioState({ audioRef, src }: Args) {
     audio.load()
   }, [audioRef, src])
 
-  // audioイベント購読
+  // audioイベント
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
@@ -41,7 +41,7 @@ export function useAudioState({ audioRef, src }: Args) {
     audio.addEventListener("pause", onPause)
     audio.addEventListener("ended", onEnded)
 
-    return () => {
+    return () => { //イベントリスナーが複数動かないようにするための処置
       audio.removeEventListener("loadedmetadata", onLoadedMetadata)
       audio.removeEventListener("timeupdate", onTimeUpdate)
       audio.removeEventListener("play", onPlay)

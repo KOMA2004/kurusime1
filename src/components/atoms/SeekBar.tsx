@@ -19,7 +19,7 @@ function SeekBar({
 }: Props) {
   const [seekTime, setSeekTime] = useState<number | null>(null)
 
-  const seekTimeRef = useRef<number | null>(null)
+  const seekTimeRef = useRef<number | null>(null) //イベントリスナーは非同期処理のため、stateの最新値を持たない(クロージャ)からuseRefを用意
   const currentTimeRef = useRef<number>(0)
 
   useEffect(() => {
@@ -30,9 +30,9 @@ function SeekBar({
     currentTimeRef.current = nowTime
   }, [nowTime])
 
-  const shownTime = seekTime ?? nowTime
+  const shownTime = seekTime ?? nowTime //表示用の値
 
-  const seekValue = useMemo(
+  const seekValue = useMemo( //スライダーに渡す値
     () => [Math.min(shownTime, duration || 0)],
     [shownTime, duration],
   )

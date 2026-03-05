@@ -7,11 +7,11 @@ type Props = {audioRef: React.RefObject<HTMLAudioElement | null>}
 function VolumeMeter({audioRef} : Props) {
 
   const [volume, setVolume] = useState(40)
-  const lastVolume = useRef(40)
-  const isMuted = volume === 0
+  const lastVolume = useRef(40) //ミュート前の音量
+  const isMuted = volume === 0 //volumeが0ならtrue、でなければfalse
 
-   const [volOpen, setVolOpen] = useState(false)
-    const volCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+   const [volOpen, setVolOpen] = useState(false) //音量フェーダーの表示非表示
+    const volCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null) //音量フェーダーが消えるまでの時間
   
     const volOpenNow = () => {
       if (volCloseTimer.current) clearTimeout(volCloseTimer.current)
